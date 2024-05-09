@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
-// import Products from './Products';
-import JumboTronComponent from './JumboTronComponent';
+import Products from './Products';
 
 class App extends Component {
-  render() {
+  render() {        
     return (
       <div>
-        <JumboTronComponent>
-          This is a long sentence, and I want to insert content into the
-          jumbotron component from the outside.
-        </JumboTronComponent>
-
-        
+        <h1>My First React App</h1>
+        <Products />        
       </div>
     );
   }
 }
+
 export default App;
