@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import GitHub from "./GitHub";
+import GitHubUser from "./GithubUser";
 import Contact from "./Contact"; // Assuming you have a Contact component defined
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Nav, Navbar } from "react-bootstrap";
@@ -10,18 +11,20 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <Navbar bg="light" expand="lg">
-            <Navbar.Brand href="/">React Router Example</Navbar.Brand>
+            <Navbar.Brand href="/">Precious Bhembe  </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto">
                 <Nav.Link href="/">Home</Nav.Link>
-                <Nav.Link href="/">Contact</Nav.Link>
+                <Nav.Link href="/contact">Contact</Nav.Link>{" "}
+                {/* Corrected path */}
                 <Nav.Link href="/github">GitHub</Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Navbar>
 
           <Routes>
+            <Route path="/github/user/:login/:id" component={GitHubUser} />
             <Route path="/" element={<Home />} />
             <Route path="/github" element={<GitHub />} />
             <Route path="/about" element={<About />} />
