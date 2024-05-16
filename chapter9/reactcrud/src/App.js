@@ -1,33 +1,43 @@
-import React, { Component } from "react";
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
-import "firebase/compat/database";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import User from "./User";
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import React, { Component } from 'react'
+import User from './User'
+import UserForm from './UserForm'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/auth'
+import 'firebase/compat/database'
 
 class App extends Component {
   constructor() {
     super();
-    console.log(firebase);
+    console.log(firebase)
   }
+
   render() {
     return (
       <div>
         <BrowserRouter>
-          <Routes>
-            <Route exact path="/" element={ <User />} /> 
-            <Route path="/*" element={ <NotFound />} /> 
-          </Routes>
+          <div>
+            <Switch>
+              {/* <Route exact path="/" element={<UserForm />} /> */}
+              <div>
+                <Route path="/edit/:id" component={UserForm} />
+                <Route path="/add" component={UserForm} />
+                <Route exact path="/" component={User} />
+                <Route path='/*' component={NotFound} />
+              </div>
+            </Switch>
+          </div>
         </BrowserRouter>
-      </div>
-    );
+      </div >
+    )
   }
 }
+
 export default App;
 
 class NotFound extends Component {
   render() {
-    return <div>Not Found</div>
+    return <div>Not found</div>
   }
 }
