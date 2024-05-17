@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { connect } from "react-redux";
+import Cart from "./Cart";
+function mapStateToProps(state) {
+  return {
+    totalCost: state.totalCost,
+    productCart: state.productCart,
+  };
 }
-
-export default App;
+function mapDispatchToProps(dispatch) {
+  return {
+    onAddProduct: (productName, productPrice) =>
+      dispatch({
+        type: "addProduct",
+        productData: {
+          productName: productName,
+          productPrice: productPrice,
+        },
+      }),
+    onDeleteProduct: (productData) =>
+      dispatch({
+        type: "deleteProduct",
+        productData: productData,
+      }),
+  };
+}
+var connectedComponent = connect(mapStateToProps, mapDispatchToProps)(Cart);
+export default connectedComponent;
