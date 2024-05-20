@@ -1,12 +1,14 @@
 import React from 'react';
-import Rating from './Rating';
-import { Media } from 'react-bootstrap';
+import Rating from './Rating'; // Importing Rating component
+import { Media } from 'react-bootstrap'; // Importing Media component from React Bootstrap
 
-
+// Functional component for rendering product information
 const Product = (props) => {
     return (
       <div> 
+       {/* Media component for displaying product details */}
        <Media>
+            {/* Product image */}
             <img 
                 width={64} 
                 height={64} 
@@ -15,16 +17,20 @@ const Product = (props) => {
                 alt="Image"
             />
           <Media.Body>
+            {/* Product name */}
             <h5>{props.data.productName}</h5>
+            {/* Product release date */}
             { props.data.releasedDate }
+            {/* Rating component */}
             <Rating 
                 rating={props.data.rating} numOfReviews={props.data.numOfReviews}
             />
+            {/* Product description */}
             <p>{props.data.description}</p>
           </Media.Body>
         </Media>                                                                                                                                   
       </div>
     );
-  }
+}
 
 export default Product;

@@ -1,8 +1,8 @@
 import React from 'react';
-import Product from './Product';
+import Product from './Product'; // Importing the Product component
 
 function Products() {
-
+    // Function to get product data
     const getProducts = () => {
         return [
             { 
@@ -28,19 +28,21 @@ function Products() {
                 description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porttitor, tellus laoreet venenatis facilisis, enim ex faucibus nulla, id rutrum ligula purus sit amet mauris. ",        
                 rating: 5,
                 numOfReviews: 2
-            }];
-      
+            }
+        ];
     }
 
-    const products = getProducts()
+    // Get product data
+    const products = getProducts();
 
+    // Map through products array and create Product components
     const listProducts = products.map((product) => 
         <Product key={product.productName} data={product} />
     );    
   
     return (
       <div>
-          <ul>{listProducts}</ul>     
+          <ul>{listProducts}</ul>     {/* Render the list of products */}
       </div>
     );
 }

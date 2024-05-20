@@ -7,7 +7,8 @@
   </head>
   <body>
     <script>
-        function addPerson(id,name,age) {
+        // Function to create an action to add a person to the Redux store
+        function addPerson(id, name, age) {
             return {
                 type: "ADD",
                 personData: {
@@ -18,6 +19,7 @@
             }
         }
 
+        // Function to create an action to remove a person from the Redux store
         function removePerson(id) {
             return {
                 type: "REMOVE",
@@ -25,10 +27,12 @@
             }
         }   
         
+        // Define the initial state for the Redux store
         const initialState = {
             persons: []
         };
 
+        // Define the reducer function to handle state updates based on actions
         function reducer(state, action) {
             if (state === undefined) {
                 state = initialState;
@@ -39,29 +43,36 @@
                     name: action.personData.name,
                     age: action.personData.age
                 }
+                // Add a new person to the state
                 return {
                     ...state,
                     persons: state.persons.concat(newPerson)
                 }
             } else if (action.type === "REMOVE") {
+                // Remove a person from the state
                 return {
                     ...state,
                     persons: state.persons.filter(person => person.id !== action.personId)
                 }
             } else {
+                // Return current state if action type is not recognized
                 return state;
             }
         }  
         
         // Ensure Redux is loaded before creating the store
         document.addEventListener("DOMContentLoaded", function() {
+            // Create a Redux store with the defined reducer
             var store = Redux.createStore(reducer); 
+            // Subscribe to store updates and log state changes
             store.subscribe(showState);
 
+            // Function to log the current state of the Redux store
             function showState() {
                 console.log(store.getState());
             }   
 
+            // Dispatch actions to add and remove persons from the store
             store.dispatch(addPerson(1,"Greg",5));
             store.dispatch(addPerson(2,"Carol",3));
             store.dispatch(addPerson(3,"Gabriel",6));
