@@ -7,13 +7,12 @@ function WeatherApp() {
      setCityName(e.target.value);
   }
     const fetchWeatherAPI = async() =>{ 
-      // const ENTER_API_KEY = "551a8a50bab54501b2421957242305"
-      // const APIurl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units={ENTER_API_KEY}`;
+      // const ENTER_API_KEY = "5c0cd359a9780f177327881a90598d06"
+      // const APIurl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${ENTER_API_KEY}`;
       const resp = await fetch(APIurl);
       const respJson = await resp.json();
       setWeatherData(respJson);
       
-       
     }
 let handleMouseOut =(e) =>{
   
