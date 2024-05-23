@@ -1,46 +1,55 @@
-import React, { useReducer} from 'react';
-import ToDoList from './ToDoList'
-import { v4 as uuidv4 } from 'uuid';
+import React, { useReducer } from 'react';
+import ToDoList from './ToDoList'; // Importing ToDoList component
+import { v4 as uuidv4 } from 'uuid'; // Importing uuidv4 for generating unique IDs
 
+// Initial state for todos
 const todosInitialState = { 
-  todos:[{ id:1, text: "finishing writing hooks chapter"},
+  todos: [
+    { id:1, text: "finishing writing hooks chapter"},
     { id:2, text: "play with kids"},
     { id:3, text: "read bible"}
   ]
 };
 
-export const TodosContext = React.createContext()
+// Creating a context for todos
+export const TodosContext = React.createContext();
 
 function App (){
-  const [state, dispatch] = useReducer(todosReducer,todosInitialState)
+  // Using useReducer hook to manage state and actions for todos
+  const [state, dispatch] = useReducer(todosReducer, todosInitialState);
 
   return (
-    <TodosContext.Provider value={{state,dispatch}}>      
+    <TodosContext.Provider value={{ state, dispatch }}>      
+      {/* Providing ToDoList component with context */}
       <ToDoList />
     </TodosContext.Provider>    
-  )
+  );
 }
 
+// Reducer function to handle state changes for todos
 function todosReducer(state, action){ 
   switch(action.type){     
     case 'add':
-      const newToDo = {id: uuidv4(), text: action.payload}
-      const addedToDos = [...state.todos,newToDo]
-      return {...state,todos:addedToDos}
+      // Adding a new todo item
+      const newToDo = { id: uuidv4(), text: action.payload };
+      const addedToDos = [...state.todos, newToDo];
+      return { ...state, todos: addedToDos };
     case 'delete':
-      const filteredTodoState = state.todos.filter( todo => todo.id !== action.payload.id)
-      return {...state, todos: filteredTodoState}
+      // Deleting a todo item
+      const filteredTodoState = state.todos.filter(todo => todo.id !== action.payload.id);
+      return { ...state, todos: filteredTodoState };
     case 'edit':   
-      const updatedToDo = {...action.payload} 
-      const updatedToDoIndex = state.todos.findIndex(t => t.id === action.payload.id)
+      // Editing a todo item
+      const updatedToDo = { ...action.payload }; 
+      const updatedToDoIndex = state.todos.findIndex(t => t.id === action.payload.id);
       const updatedToDos = [
-        ...state.todos.slice(0,updatedToDoIndex),
+        ...state.todos.slice(0, updatedToDoIndex),
         updatedToDo,
         ...state.todos.slice(updatedToDoIndex + 1)
       ];
-      return {...state, todos: updatedToDos}      
+      return { ...state, todos: updatedToDos };      
     default:
-      return todosInitialState
+      return todosInitialState; // Returning initial state if action type is unknown
   }
 }
 

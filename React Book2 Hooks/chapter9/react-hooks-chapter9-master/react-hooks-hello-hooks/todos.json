@@ -1,0 +1,30 @@
+{
+  "todos": [
+    {
+      "id": "1",
+      "text": "Coding",
+      "complete": false
+    },
+    {
+      "id": "2",
+      "text": "Yeet",
+      "complete": false
+    },
+    {
+      "id": "698c326e-0b1f-46ec-936f-5a2494f08c7c",
+      "text": "Finish code more"
+    },
+    {
+      "id": "3a0e8ba1-99f2-452e-9ed9-a660556fcef6",
+      "text": "jumping off a bridge instead of doing my work( never let them know your next move)!!!!!!"
+    },
+    {
+      "id": "20e445ee-4142-4875-9922-cf4be2525185",
+      "text": "reading"
+    },
+    {
+      "id": "3b3c842e-b73c-4dad-9e5d-4c97c86f87ad",
+      "text": "eat cake"
+    }
+  ]
+}
