@@ -29,7 +29,7 @@ const data = [
   },
   {
     id: 5,
-    image: "/images/bootstrap.png",
+    image: "/images/bootsrap.png",
     title: "Bootstrap Tutorial",
     description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     category: "frontend",
@@ -50,7 +50,7 @@ const data = [
   },
   {
     id: 8,
-    image: "/images/ASAP.png",
+    image: "/images/ASAP.jpeg",
     title: "ASP Tutorial",
     description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     category: "backend",
