@@ -1,23 +1,26 @@
-import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useState } from "react"; // Importing React and the useState hook
+import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS for styling
 
 const TodoApp = () => {
-  const [todos, setTodos] = useState([]);
-  const [newTodo, setNewTodo] = useState("");
+  const [todos, setTodos] = useState([]); // State to hold the list of todos
+  const [newTodo, setNewTodo] = useState(""); // State to hold the value of the new todo input
 
+  // Function to handle input changes and update the newTodo state
   const handleInputChange = (e) => {
     setNewTodo(e.target.value);
   };
 
+  // Function to add a new todo to the list
   const handleAddTodo = () => {
-    if (newTodo.trim()) {
-      setTodos([...todos, newTodo]);
-      setNewTodo("");
+    if (newTodo.trim()) { // Check if the input is not empty or just whitespace
+      setTodos([...todos, newTodo]); // Add the new todo to the list
+      setNewTodo(""); // Clear the input field
     }
   };
 
+  // Function to delete a todo from the list based on its index
   const handleDeleteTodo = (index) => {
-    setTodos(todos.filter((_, i) => i !== index));
+    setTodos(todos.filter((_, i) => i !== index)); // Filter out the todo at the specified index
   };
 
   return (
@@ -27,9 +30,9 @@ const TodoApp = () => {
         <input
           type="text"
           className="form-control"
-          value={newTodo}
-          onChange={handleInputChange}
-          placeholder="Enter a new todo"
+          value={newTodo} // Bind the input value to newTodo state
+          onChange={handleInputChange} // Update newTodo state on input change
+          placeholder="Enter a new todo" // Placeholder text for the input
         />
         <div className="input-group-append">
           <button className="btn btn-primary" onClick={handleAddTodo}>
@@ -46,7 +49,7 @@ const TodoApp = () => {
             {todo}
             <button
               className="btn btn-danger btn-sm"
-              onClick={() => handleDeleteTodo(index)}
+              onClick={() => handleDeleteTodo(index)} // Delete the todo when button is clicked
             >
               Delete
             </button>
@@ -57,4 +60,4 @@ const TodoApp = () => {
   );
 };
 
-export default TodoApp;
+export default TodoApp; // Export the TodoApp component as default
