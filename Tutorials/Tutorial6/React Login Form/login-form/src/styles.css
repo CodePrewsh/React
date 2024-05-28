@@ -1,65 +1,75 @@
+/* Apply styles to the main app container */
 .app {
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 20px;
-  height: 100vh;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif; /* Set font family */
+  display: flex; /* Use flexbox layout */
+  align-items: center; /* Center items vertically */
+  justify-content: center; /* Center items horizontally */
+  flex-direction: column; /* Stack items vertically */
+  gap: 20px; /* Space between items */
+  height: 100vh; /* Full viewport height */
   background-color: #000; /* Background color set to black */
 }
 
+/* Apply styles to text and password input fields */
 input[type="text"],
 input[type="password"] {
-  height: 25px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  height: 25px; /* Set height of input fields */
+  border: 1px solid rgba(0, 0, 0, 0.2); /* Set border with slight transparency */
 }
 
+/* Apply styles to the submit button */
 input[type="submit"] {
-  margin-top: 10px;
-  cursor: pointer;
-  font-size: 15px;
-  background: #01d28e;
-  border: 1px solid #01d28e;
-  color: #fff;
-  padding: 10px 20px;
+  margin-top: 10px; /* Space above the button */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  font-size: 15px; /* Set font size */
+  background: #01d28e; /* Background color */
+  border: 1px solid #01d28e; /* Border color */
+  color: #fff; /* Text color */
+  padding: 10px 20px; /* Padding inside the button */
 }
 
+/* Change background color on hover for submit button */
 input[type="submit"]:hover {
-  background: #6cf0c2;
+  background: #6cf0c2; /* Lighter background color on hover */
 }
 
+/* Center align the button container */
 .button-container {
-  display: flex;
+  display: flex; /* Use flexbox layout */
   justify-content: center; /* Center align the button */
 }
 
+/* Apply styles to the login form container */
 .login-form {
   background-color: #000; /* Background color set to black */
   padding: 3rem; /* Increased padding to make it bigger */
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); /* Box shadow for depth */
   align-self: center; /* Center align the form */
 }
 
+/* Apply styles to the list container */
 .list-container {
-  display: flex;
+  display: flex; /* Use flexbox layout */
 }
 
+/* Apply styles to error messages */
 .error {
-  color: red;
-  font-size: 12px;
+  color: red; /* Text color set to red */
+  font-size: 12px; /* Set font size */
 }
 
+/* Apply styles to the title */
 .title {
-  font-size: 25px;
-  margin-bottom: 20px;
+  font-size: 25px; /* Set font size */
+  margin-bottom: 20px; /* Space below the title */
   text-align: center; /* Center align the title */
 }
 
+/* Apply styles to the input container */
 .input-container {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin: 10px;
+  display: flex; /* Use flexbox layout */
+  flex-direction: column; /* Stack items vertically */
+  gap: 8px; /* Space between items */
+  margin: 10px; /* Margin around the container */
   align-items: center; /* Center align input fields */
 }

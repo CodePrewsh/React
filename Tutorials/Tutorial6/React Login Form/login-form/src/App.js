@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom";
+import React, { useState } from "react"; // Import React and useState hook
+import ReactDOM from "react-dom"; // Import ReactDOM for rendering
 
-import "./styles.css";
+import "./styles.css"; // Import styles
 
 function App() {
   // React States
-  const [errorMessages, setErrorMessages] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessages, setErrorMessages] = useState({}); // State for storing error messages
+  const [isSubmitted, setIsSubmitted] = useState(false); // State for tracking form submission status
 
-  // User Login info
+  // User login info
   const database = [
     {
       username: "user1",
@@ -20,15 +20,18 @@ function App() {
     }
   ];
 
+  // Error messages
   const errors = {
     uname: "invalid username",
     pass: "invalid password"
   };
 
+  // Handle form submission
   const handleSubmit = (event) => {
-    //Prevent page reload
+    // Prevent page reload
     event.preventDefault();
 
+    // Extract username and password from the form
     var { uname, pass } = document.forms[0];
 
     // Find user login info
@@ -40,6 +43,7 @@ function App() {
         // Invalid password
         setErrorMessages({ name: "pass", message: errors.pass });
       } else {
+        // Successful login
         setIsSubmitted(true);
       }
     } else {
@@ -61,15 +65,15 @@ function App() {
         <div className="input-container">
           <label>Username </label>
           <input type="text" name="uname" required />
-          {renderErrorMessage("uname")}
+          {renderErrorMessage("uname")} {/* Render error message for username */}
         </div>
         <div className="input-container">
           <label>Password </label>
           <input type="password" name="pass" required />
-          {renderErrorMessage("pass")}
+          {renderErrorMessage("pass")} {/* Render error message for password */}
         </div>
         <div className="button-container">
-          <input type="submit" />
+          <input type="submit" /> {/* Submit button */}
         </div>
       </form>
     </div>
@@ -79,10 +83,14 @@ function App() {
     <div className="app">
       <div className="login-form">
         <div className="title">Sign In</div>
-        {isSubmitted ? <div>User is successfully logged in</div> : renderForm}
+        {isSubmitted ? (
+          <div>User is successfully logged in</div> // Message displayed on successful login
+        ) : (
+          renderForm // Display login form if not submitted
+        )}
       </div>
     </div>
   );
 }
 
-export default App;
+export default App; // Export the App component as the default export
