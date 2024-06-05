@@ -1,0 +1,59 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #2a2139; /* Dark purple background */
+    color: #eee; /* Light text color */
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #3c304e; /* Dark purple form background */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  input {
+    padding: 10px;
+    border: 1px solid #5c4a7d; /* Light purple border */
+    border-radius: 4px;
+    background: #4f3a67; /* Darker purple input background */
+    color: #eee; /* Light text color */
+  }
+  
+  button {
+    padding: 10px;
+    background: #88304e; /* Dark red button background */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background: #b82b3a; /* Lighter red button background on hover */
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  li {
+    background: #3c304e; /* Dark purple list item background */
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    text-align: center;
+    color: #f8c24a; /* Yellowish header color */
+  }
+  
