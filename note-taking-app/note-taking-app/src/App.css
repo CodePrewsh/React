@@ -27,7 +27,7 @@ body, html {
 }
 
 .heading {
-  color: #ff6b6b;
+  color: #ab0b76;
   font-size: 32px;
   margin-bottom: 20px;
   text-align: left; /* Ensure heading is left aligned */
@@ -37,17 +37,17 @@ body, html {
   width: calc(100% - 20px);
   margin-bottom: 20px;
   padding: 10px;
-  border: 2px solid #ff6b6b;
+  border: 2px solid #c96bff;
   border-radius: 10px;
   font-size: 18px;
   transition: border-color 0.3s ease;
-  background-color: #1e1e1e; /* Dark input background */
+  background-color: #24032a; /* Dark input background */
   color: #e0e0e0; /* Light input text */
   text-align: left; /* Left align input text */
 }
 
 .note-input:focus {
-  border-color: #ffaf6b;
+  border-color: #240229;
 }
 
 .button {
@@ -55,7 +55,7 @@ body, html {
   padding: 10px 20px;
   border: none;
   border-radius: 20px;
-  background-color: #ff6b6b;
+  background-color: #1b001d;
   color: #fff;
   font-size: 18px;
   cursor: pointer;
@@ -64,7 +64,7 @@ body, html {
 }
 
 .button:hover {
-  background-color: #ffaf6b;
+  background-color: #220220;
   transform: scale(1.05);
 }
 
@@ -83,7 +83,7 @@ body, html {
   border-radius: 10px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(29, 1, 24, 0.1);
   transition: transform 0.3s ease;
   text-align: left; /* Ensure note text is left aligned */
 }
@@ -96,7 +96,7 @@ body, html {
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: #ff6b6b;
+  background-color: #1a011b;
   color: #fff;
   border: none;
   border-radius: 50%;
@@ -109,6 +109,6 @@ body, html {
 }
 
 .delete-button:hover {
-  background-color: #ffaf6b;
+  background-color: #370534;
   transform: scale(1.1);
 }
