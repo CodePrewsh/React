@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { auth, db } from "./firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { auth } from "./firebase";
 
 function Profile() {
   const [userDetails, setUserDetails] = useState(null);
-  const fetchUserData = async () => {
-    auth.onAuthStateChanged(async (user) => {
-      console.log(user);
 
-      const docRef = doc(db, "Users", user.uid);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setUserDetails(docSnap.data());
-        console.log(docSnap.data());
+  const fetchUserData = async () => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        // Directly set the user details from the auth object
+        setUserDetails({
+          email: user.email,
+          photo: user.photoURL,
+          firstName: user.displayName.split(' ')[0], // Assuming the displayName is in "First Last" format
+          lastName: user.displayName.split(' ')[1], // Assuming the displayName is in "First Last" format
+        });
+        console.log(user);
       } else {
         console.log("User is not logged in");
       }
     });
   };
+
   useEffect(() => {
     fetchUserData();
   }, []);
@@ -31,16 +34,20 @@ function Profile() {
       console.error("Error logging out:", error.message);
     }
   }
+
   return (
     <div>
       {userDetails ? (
         <>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <img
-              src={userDetails.photo}
-              width={"40%"}
-              style={{ borderRadius: "50%" }}
-            />
+            {userDetails.photo && (
+              <img
+                src={userDetails.photo}
+                width={"40%"}
+                style={{ borderRadius: "50%" }}
+                alt="Profile"
+              />
+            )}
           </div>
           <h3>Welcome {userDetails.firstName} 🙏🙏</h3>
           <div>
@@ -58,4 +65,5 @@ function Profile() {
     </div>
   );
 }
+
 export default Profile;

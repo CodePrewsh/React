@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-
-import Login from "./components/login";
-import SignUp from "./components/register";
-import Profile from "./components/profile";
-import NoteList from "./components/NoteList";
-
-import { ToastContainer } from "react-toastify";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
+import "./App.css";
+
+import Login from "./components/Login";
+import SignUp from "./components/Register";
+import Profile from "./components/Profile";
+import NoteList from "./components/NoteList";
+import { ToastContainer } from "react-toastify";
 import { auth } from "./components/firebase";
 
 function App() {
@@ -18,9 +17,8 @@ function App() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
+      console.log("User state changed:", user); // Debugging line
     });
-
-    // Cleanup subscription on unmount
     return () => unsubscribe();
   }, []);
 
@@ -30,14 +28,11 @@ function App() {
         <div className="auth-wrapper">
           <div className="auth-inner">
             <Routes>
-              <Route
-                path="/"
-                element={user ? <Navigate to="/profile" /> : <Navigate to="/login" />}
-              />
+              <Route path="/" element={user ? <Navigate to="/profile" /> : <Navigate to="/login" />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<SignUp />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/notes" element={<NoteList />} />
+              <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />} />
+              <Route path="/notes" element={user ? <NoteList /> : <Navigate to="/login" />} />
             </Routes>
             <ToastContainer />
           </div>
