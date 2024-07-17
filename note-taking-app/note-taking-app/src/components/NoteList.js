@@ -1,54 +1,65 @@
-// src/components/NoteList.js
-
 import React, { useState, useEffect } from "react";
 import { Container, Button, Form, ListGroup } from "react-bootstrap";
-import { db } from "./firebase"; // Ensure this path is correct
-import { collection, addDoc, getDocs, doc, deleteDoc } from "firebase/firestore";
+import { db } from "./firebase"; // Updated path to match the location of firebase.js
+import { collection, addDoc, getDocs, deleteDoc, doc } from "firebase/firestore";
 import "../App.css";
 
 const NoteList = () => {
   const [notes, setNotes] = useState([]);
   const [noteInput, setNoteInput] = useState("");
 
+  // Load notes from session storage first, then Firestore
   useEffect(() => {
-    const savedNotes = JSON.parse(localStorage.getItem("notes")) || [];
-    const fetchNotes = async () => {
+    const loadNotesFromSession = () => {
+      const sessionNotes = JSON.parse(sessionStorage.getItem("notes")) || [];
+      setNotes(sessionNotes);
+    };
+
+    const loadNotesFromFirestore = async () => {
       const notesCollection = collection(db, "notes");
       const notesSnapshot = await getDocs(notesCollection);
-      const firestoreNotes = notesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      const allNotes = [...new Set([...savedNotes, ...firestoreNotes])];
-      setNotes(allNotes);
-      localStorage.setItem("notes", JSON.stringify(allNotes));
+      const notesList = notesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setNotes(notesList);
+      // local storage and session storage with Firestore notes
+      localStorage.setItem("notes", JSON.stringify(notesList));
+      sessionStorage.setItem("notes", JSON.stringify(notesList));
     };
-    fetchNotes();
+
+    loadNotesFromSession();
+    loadNotesFromFirestore();
   }, []);
 
   const addNoteToList = async (noteText) => {
     const newNote = { text: noteText };
-
-    // Add to Firestore
-    const docRef = await addDoc(collection(db, "notes"), newNote);
-    const firestoreNote = { id: docRef.id, ...newNote };
-
-    // Add to localStorage
-    setNotes((prevNotes) => {
-      const updatedNotes = [...prevNotes, firestoreNote];
-      localStorage.setItem("notes", JSON.stringify(updatedNotes));
-      return updatedNotes;
-    });
+    try {
+      const docRef = await addDoc(collection(db, "notes"), newNote);
+      const noteWithId = { id: docRef.id, ...newNote };
+      setNotes((prevNotes) => {
+        const updatedNotes = [...prevNotes, noteWithId];
+        // Update local and session storage
+        localStorage.setItem("notes", JSON.stringify(updatedNotes));
+        sessionStorage.setItem("notes", JSON.stringify(updatedNotes));
+        return updatedNotes;
+      });
+    } catch (e) {
+      console.error("Error adding note: ", e);
+    }
   };
 
   const deleteNoteFromList = async (noteId) => {
     if (window.confirm("Are you sure you want to delete this note?")) {
-      // Delete from Firestore
-      await deleteDoc(doc(db, "notes", noteId));
-
-      // Delete from localStorage
-      setNotes((prevNotes) => {
-        const updatedNotes = prevNotes.filter((note) => note.id !== noteId);
-        localStorage.setItem("notes", JSON.stringify(updatedNotes));
-        return updatedNotes;
-      });
+      try {
+        await deleteDoc(doc(db, "notes", noteId));
+        setNotes((prevNotes) => {
+          const updatedNotes = prevNotes.filter((note) => note.id !== noteId);
+          // Update local and session storage
+          localStorage.setItem("notes", JSON.stringify(updatedNotes));
+          sessionStorage.setItem("notes", JSON.stringify(updatedNotes));
+          return updatedNotes;
+        });
+      } catch (e) {
+        console.error("Error deleting note: ", e);
+      }
     }
   };
 
@@ -63,6 +74,7 @@ const NoteList = () => {
     backgroundImage: "url('/NoteTaking.jpg')",
     backgroundSize: "cover",
     backgroundPosition: "center",
+    height: "100vh" 
     // Add more CSS properties as needed
   };
 

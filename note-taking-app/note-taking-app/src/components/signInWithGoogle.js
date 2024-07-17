@@ -14,8 +14,8 @@ function SignInWithGoogle() {
       const userRef = doc(db, "users", user.uid);
       await setDoc(userRef, {
         email: user.email,
-        displayName: user.displayName || "", // Add other fields if necessary
-        lastLogin: new Date() // You can add a timestamp for the last login
+        displayName: user.displayName || "", 
+        lastLogin: new Date() // add a timestamp for the last login
       }, { merge: true });
 
       console.log("User signed in with Google");

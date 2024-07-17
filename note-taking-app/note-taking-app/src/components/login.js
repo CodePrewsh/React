@@ -22,7 +22,7 @@ function Login() {
       await setDoc(userRef, {
         email: user.email,
         displayName: user.displayName || "", // Add other fields if necessary
-        lastLogin: new Date() // You can add a timestamp for the last login
+        lastLogin: new Date() // timestamp for the last login
       }, { merge: true });
 
       console.log("User logged in successfully");
