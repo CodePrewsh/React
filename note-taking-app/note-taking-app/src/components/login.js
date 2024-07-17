@@ -1,28 +1,35 @@
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "./firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "./firebase"; // Make sure db is exported from your firebase.js
 import { toast } from "react-toastify";
 import SignInWithGoogle from "./signInWIthGoogle";
 import { useNavigate } from "react-router-dom";
-import NoteList from "./NoteList";
-
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  let navigate =useNavigate();
-
+  let navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Save user information to Firestore
+      const userRef = doc(db, "users", user.uid);
+      await setDoc(userRef, {
+        email: user.email,
+        displayName: user.displayName || "", // Add other fields if necessary
+        lastLogin: new Date() // You can add a timestamp for the last login
+      }, { merge: true });
+
       console.log("User logged in successfully");
-      // window.location.href = "/profile";
       toast.success("User logged in successfully", {
         position: "top-center",
       });
-      navigate("/notes")
+      navigate("/notes");
     } catch (error) {
       console.error(error.message);
       toast.error(error.message, {
