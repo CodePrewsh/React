@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { auth, db } from "./firebase"; // Make sure db is exported from your firebase.js
+import { auth, db } from "./firebase"; // Ensure db is exported from your firebase.js
 import { toast } from "react-toastify";
-import SignInWithGoogle from "./signInWIthGoogle";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -72,7 +71,6 @@ function Login() {
       <p className="forgot-password text-right">
         New user <a href="/register">Register Here</a>
       </p>
-      <SignInWithGoogle />
     </form>
   );
 }

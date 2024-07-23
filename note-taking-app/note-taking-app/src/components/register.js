@@ -1,26 +1,30 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
-import { auth } from "./firebase";
-import { toast } from "react-toastify";
+import { createUserWithEmailAndPassword } from "firebase/auth"; // Import Firebase authentication function
+import React, { useState } from "react"; // Import React and useState hook
+import { auth } from "./firebase"; // Import Firebase authentication instance
+import { toast } from "react-toastify"; // Import toast notifications
 
 function Register() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [fname, setFname] = useState("");
-  const [lname, setLname] = useState("");
+  const [email, setEmail] = useState(""); // State for email input
+  const [password, setPassword] = useState(""); // State for password input
+  const [fname, setFname] = useState(""); // State for first name input
+  const [lname, setLname] = useState(""); // State for last name input
 
+  // Function to handle user registration
   const handleRegister = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission
     try {
+      // Create user with email and password
       await createUserWithEmailAndPassword(auth, email, password);
-      const user = auth.currentUser;
+      const user = auth.currentUser; // Get the current user
       console.log(user);
       console.log("User Registered Successfully!!");
+      // Display success toast notification
       toast.success("User Registered Successfully!!", {
         position: "top-center",
       });
     } catch (error) {
       console.log(error.message);
+      // Display error toast notification
       toast.error(error.message, {
         position: "bottom-center",
       });

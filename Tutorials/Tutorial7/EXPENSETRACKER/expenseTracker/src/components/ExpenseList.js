@@ -1,24 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { db } from '../firebase'; // Corrected path
 
 function ExpenseList() {
   const [expenses, setExpenses] = useState([]);
   const [newExpense, setNewExpense] = useState({ name: '', amount: '' });
+
+  useEffect(() => {
+    const fetchExpenses = async () => {
+      const querySnapshot = await getDocs(collection(db, 'expenses'));
+      const expensesList = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setExpenses(expensesList);
+    };
+
+    fetchExpenses();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewExpense({ ...newExpense, [name]: value });
   };
 
-  const handleAddExpense = () => {
-    const id = expenses.length > 0 ? expenses[expenses.length - 1].id + 1 : 1;
-    const updatedExpenses = [...expenses, { id, ...newExpense }];
-    setExpenses(updatedExpenses);
-    setNewExpense({ name: '', amount: '' });
+  const handleAddExpense = async () => {
+    try {
+      const docRef = await addDoc(collection(db, 'expenses'), newExpense);
+      const updatedExpenses = [...expenses, { id: docRef.id, ...newExpense }];
+      setExpenses(updatedExpenses);
+      setNewExpense({ name: '', amount: '' });
+    } catch (e) {
+      console.error('Error adding document: ', e);
+    }
   };
 
-  const handleDeleteExpense = (id) => {
-    const updatedExpenses = expenses.filter((expense) => expense.id !== id);
-    setExpenses(updatedExpenses);
+  const handleDeleteExpense = async (id) => {
+    try {
+      await deleteDoc(doc(db, 'expenses', id));
+      const updatedExpenses = expenses.filter((expense) => expense.id !== id);
+      setExpenses(updatedExpenses);
+    } catch (e) {
+      console.error('Error deleting document: ', e);
+    }
   };
 
   return (
