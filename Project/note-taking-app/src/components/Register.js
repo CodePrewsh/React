@@ -1,30 +1,44 @@
-import { createUserWithEmailAndPassword } from "firebase/auth"; // Import Firebase authentication function
-import React, { useState } from "react"; // Import React and useState hook
-import { auth } from "./firebase"; // Import Firebase authentication instance
-import { toast } from "react-toastify"; // Import toast notifications
+import React, { useState } from "react";
+import { auth, googleProvider } from "./firebase"; // Import Firebase auth and Google provider
+import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { toast } from "react-toastify";
 
 function Register() {
-  const [email, setEmail] = useState(""); // State for email input
-  const [password, setPassword] = useState(""); // State for password input
-  const [fname, setFname] = useState(""); // State for first name input
-  const [lname, setLname] = useState(""); // State for last name input
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
 
   // Function to handle user registration
   const handleRegister = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
     try {
-      // Create user with email and password
       await createUserWithEmailAndPassword(auth, email, password);
-      const user = auth.currentUser; // Get the current user
+      const user = auth.currentUser;
       console.log(user);
       console.log("User Registered Successfully!!");
-      // Display success toast notification
       toast.success("User Registered Successfully!!", {
         position: "top-center",
       });
     } catch (error) {
       console.log(error.message);
-      // Display error toast notification
+      toast.error(error.message, {
+        position: "bottom-center",
+      });
+    }
+  };
+
+  // Function to handle Google sign-in
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      console.log(user);
+      toast.success("User Signed In with Google Successfully!!", {
+        position: "top-center",
+      });
+    } catch (error) {
+      console.log(error.message);
       toast.error(error.message, {
         position: "bottom-center",
       });
@@ -83,6 +97,13 @@ function Register() {
           Sign Up
         </button>
       </div>
+
+      <div className="d-grid">
+        <button type="button" className="btn btn-secondary" onClick={handleGoogleSignIn}>
+          Sign Up with Google
+        </button>
+      </div>
+
       <p className="forgot-password text-right">
         Already registered <a href="/login">Login</a>
       </p>

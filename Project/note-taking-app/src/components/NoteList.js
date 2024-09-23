@@ -1,49 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button, Form, ListGroup } from "react-bootstrap";
-import { db } from "./firebase"; // Import the Firestore database instance
-import { collection, addDoc, getDocs, deleteDoc, doc } from "firebase/firestore"; // Import Firestore functions
+import { db, auth } from "./firebase"; // Import the Firestore database instance and auth instance
+import { collection, addDoc, getDocs, deleteDoc, doc, query, where } from "firebase/firestore"; // Import Firestore functions
 import "../App.css"; // Import custom CSS
 
 const NoteList = () => {
   const [notes, setNotes] = useState([]); // State to hold notes
   const [noteInput, setNoteInput] = useState(""); // State to hold the current note input
+  const currentUser = auth.currentUser; // Get the current authenticated user
 
-  // useEffect hook to load notes from session storage first, then Firestore
+  // useEffect hook to load notes from Firestore for the current user
   useEffect(() => {
-    const loadNotesFromSession = () => {
-      const sessionNotes = JSON.parse(sessionStorage.getItem("notes")) || [];
-      setNotes(sessionNotes);
-    };
-
     const loadNotesFromFirestore = async () => {
-      const notesCollection = collection(db, "notes"); // Reference to the "notes" collection in Firestore
-      const notesSnapshot = await getDocs(notesCollection); // Get all documents in the "notes" collection
-      const notesList = notesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); // Map documents to an array of note objects
-      setNotes(notesList);
-      // Update local and session storage with Firestore notes
-      localStorage.setItem("notes", JSON.stringify(notesList));
-      sessionStorage.setItem("notes", JSON.stringify(notesList));
+      if (currentUser) {
+        const notesCollection = collection(db, "notes"); // Reference to the "notes" collection in Firestore
+        const q = query(notesCollection, where("userId", "==", currentUser.uid)); // Only fetch notes where userId matches current user's uid
+        const notesSnapshot = await getDocs(q); // Get all documents in the "notes" collection that match the query
+        const notesList = notesSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })); // Map documents to an array of note objects
+        setNotes(notesList); // Set the notes in the state
+      }
     };
 
-    loadNotesFromSession();
     loadNotesFromFirestore();
-  }, []); // Empty dependency array means this effect runs once after initial render
+  }, [currentUser]); // Reload when the currentUser changes
 
   // Function to add a new note to Firestore and update state
   const addNoteToList = async (noteText) => {
-    const newNote = { text: noteText };
-    try {
-      const docRef = await addDoc(collection(db, "notes"), newNote); // Add new note to Firestore
-      const noteWithId = { id: docRef.id, ...newNote }; // Add Firestore document ID to the note
-      setNotes((prevNotes) => {
-        const updatedNotes = [...prevNotes, noteWithId];
-        // Update local and session storage
-        localStorage.setItem("notes", JSON.stringify(updatedNotes));
-        sessionStorage.setItem("notes", JSON.stringify(updatedNotes));
-        return updatedNotes;
-      });
-    } catch (e) {
-      console.error("Error adding note: ", e); // Log any errors
+    if (currentUser) {
+      const newNote = { text: noteText, userId: currentUser.uid }; // Attach the current user's uid to the note
+      try {
+        const docRef = await addDoc(collection(db, "notes"), newNote); // Add new note to Firestore
+        const noteWithId = { id: docRef.id, ...newNote }; // Add Firestore document ID to the note
+        setNotes((prevNotes) => [...prevNotes, noteWithId]); // Update the state with the new note
+      } catch (e) {
+        console.error("Error adding note: ", e); // Log any errors
+      }
     }
   };
 
@@ -52,13 +43,7 @@ const NoteList = () => {
     if (window.confirm("Are you sure you want to delete this note?")) { // Confirm deletion
       try {
         await deleteDoc(doc(db, "notes", noteId)); // Delete note from Firestore
-        setNotes((prevNotes) => {
-          const updatedNotes = prevNotes.filter((note) => note.id !== noteId);
-          // Update local and session storage
-          localStorage.setItem("notes", JSON.stringify(updatedNotes));
-          sessionStorage.setItem("notes", JSON.stringify(updatedNotes));
-          return updatedNotes;
-        });
+        setNotes((prevNotes) => prevNotes.filter((note) => note.id !== noteId)); // Update the state to remove the deleted note
       } catch (e) {
         console.error("Error deleting note: ", e); // Log any errors
       }
@@ -78,7 +63,7 @@ const NoteList = () => {
     backgroundImage: "url('/NoteTaking.jpg')",
     backgroundSize: "cover",
     backgroundPosition: "center",
-    height: "100vh" 
+    height: "100vh"
     // Add more CSS properties as needed
   };
 
